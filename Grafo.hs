@@ -37,10 +37,22 @@ agEje (n1,n2) G ns f = G ns (\n -> 	if n==n1
 									else f n)
 
 -- Ejercicio 7
+-- TODO: Revisar. Creo que elemIndex se usa elemIndex n ns
+-- Tambien, me parece que hay que usar fromJust con elemIndex (http://hackage.haskell.org/package/base-4.8.0.0/docs/Data-Maybe.html#t:Maybe)
 lineal :: [a] -> Grafo a
 lineal ns = G ns (\n -> if (elem n ns) && (n != (last ns))
 						then [ ns !! ((elemIndex n) +1)]
 						else [])
+
+-- Ejercicio 7 Alternativo (me parece mas declarativo)
+linealAlt :: [a] -> Grafo a
+linealAlt ns = G ns (\n -> 	if elem n ns
+							then drop (fromJust (elemIndex n ns) + 1) ns
+							else [])
+
+(\n -	if (elem n ns) && (n != (last ns))
+							then [ ns !! ((elemIndex n) +1)]
+							else [])
 
 -- Ejercicio 8
 union :: Grafo a -> Grafo a -> Grafo a
