@@ -26,15 +26,21 @@ agNodo n G ns f = G (n:ns) f
 
 -- Ejercicio 5
 sacarNodo :: a -> Grafo a -> Grafo a
-sacarNodo n G ns f = G (filter (!=n) ns) (\x -> if x!=n then filter (!=n) (f x) otherwise []) 
+sacarNodo n G ns f = G (filter (!=n) ns) (\x -> if x!=n
+												then filter (!=n) (f x)
+												else []) 
 
 -- Ejercicio 6
 agEje :: (a,a) -> Grafo a -> Grafo a
-agEje (n1,n2) G ns f = G ns (\n -> if n==n1 then (union [n2] (f n)) otherwise f n)
+agEje (n1,n2) G ns f = G ns (\n -> 	if n==n1
+									then (union [n2] (f n))
+									else f n)
 
 -- Ejercicio 7
 lineal :: [a] -> Grafo a
-lineal ns = G ns (\n -> if (elem n ns) && (n != (last ns)) then [ ns !! ((elemIndex n) +1)] otherwise [])
+lineal ns = G ns (\n -> if (elem n ns) && (n != (last ns))
+						then [ ns !! ((elemIndex n) +1)]
+						else [])
 
 -- Ejercicio 8
 union :: Grafo a -> Grafo a -> Grafo a
