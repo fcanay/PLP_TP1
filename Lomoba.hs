@@ -44,5 +44,5 @@ quitarMundo n (K g fProp) = K (sacarNodo g) (\p -> filter (!=n) (fProp p))
 
 -- Ejercicio 16
 cierto :: Modelo -> Exp -> Bool
-cierto = undefined
+cierto (K (G ns f) fProp) exp = all (eval' m exp) ns 
 
