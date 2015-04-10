@@ -34,11 +34,12 @@ agEje (n1,n2) G ns f = G ns (\n -> if n==n1 then (n2:(f n)) otherwise f n)
 
 -- Ejercicio 7
 lineal :: [a] -> Grafo a
-lineal = undefined
+lineal ns = G ns (\n -> if (elem n ns) && (n != (last ns)) then [ ns !! ((elemIndex n) +1)] otherwise [])
 
 -- Ejercicio 8
 union :: Grafo a -> Grafo a -> Grafo a
-union = undefined
+union (G ns1 f1) (G ns2 f2) = G (union ns1 ns2) (\n -> union (f1 n) (f2 n))
+--TODO Ver q pasa si n no pertenecia a uno de los dos
 
 -- Ejercicio 9
 clausura :: Grafo a -> Grafo a
