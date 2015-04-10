@@ -16,11 +16,11 @@ foldExp fVar fNot fOr fAnd fD fB ex = let rec be foldExp fVar fNot fOr fAnd fD f
                                                   B   exr1      -> fB rec exr
 -- Ejercicio 11   
 visibilidad :: Exp -> Integer
-visibilidad = foldExp (const 0) (id) (max) (max) (+1) (+1)
+visibilidad = foldExp (const 0) id max max (+1) (+1)
 
 -- Ejercicio 12
 extraer :: Exp -> [Prop]
-extraer = undefined
+extraer = foldExp (id:[]) id union union id id
 
 -- Ejercicio 13
 eval :: Modelo -> Mundo -> Exp -> Bool
