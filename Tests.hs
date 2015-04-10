@@ -3,6 +3,8 @@ import Tipos
 import Lomoba
 import Parser
 import Test.HUnit
+import Data.List
+import Data.Maybe
 
 -- evaluar t para correr todos los tests
 t = runTestTT allTests
