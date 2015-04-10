@@ -10,27 +10,27 @@ instance (Show a) => Show (Grafo a) where
 
 -- Ejercicio 1
 vacio :: Grafo a
-vacio = undefined
+vacio = G [] (const [])
 
 -- Ejercicio 2
 nodos :: Grafo a -> [a]
-nodos = undefined
+nodos G ns _ = ns
 
 -- Ejercicio 3
 vecinos :: Grafo a -> a -> [a]
-vecinos = undefined
+vecinos G _ f n = f a
 
 -- Ejercicio 4
 agNodo :: a -> Grafo a -> Grafo a
-agNodo = undefined
+agNodo n G ns f = G (n:ns) f
 
 -- Ejercicio 5
 sacarNodo :: a -> Grafo a -> Grafo a
-sacarNodo = undefined
+sacarNodo n G ns f = G (filter (==n) ns) (\x -> filter (==n) (f x)) 
 
 -- Ejercicio 6
 agEje :: (a,a) -> Grafo a -> Grafo a
-agEje = undefined
+agEje (n1,n2) G ns f = G ns (\n -> if n==n1 then (n2:(f n)) otherwise f n)
 
 -- Ejercicio 7
 lineal :: [a] -> Grafo a
