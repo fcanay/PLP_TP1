@@ -30,7 +30,7 @@ sacarNodo n G ns f = G (filter (!=n) ns) (\x -> if x!=n then filter (!=n) (f x) 
 
 -- Ejercicio 6
 agEje :: (a,a) -> Grafo a -> Grafo a
-agEje (n1,n2) G ns f = G ns (\n -> if n==n1 then (n2:(f n)) otherwise f n)
+agEje (n1,n2) G ns f = G ns (\n -> if n==n1 then (union [n2] (f n)) otherwise f n)
 
 -- Ejercicio 7
 lineal :: [a] -> Grafo a
