@@ -5,6 +5,7 @@ data Grafo a = G [a] (a -> [a])
 instance (Show a) => Show (Grafo a) where
 	show (G n e) = "[\n" ++ concat (map (\x -> " " ++ show x ++ " -> " ++ show (e x) ++ "\n") n) ++ "]"
 
+--import Data.List
 
 -- ---------------------------------Sección 3--------- Grafos ---------------------------
 --TODO tener en cuenta el comportamiento de la f cunado el nodo no pertence al grafo
@@ -14,25 +15,25 @@ vacio = G [] (const [])
 
 -- Ejercicio 2
 nodos :: Grafo a -> [a]
-nodos G ns _ = ns
+nodos (G ns _) = ns
 
 -- Ejercicio 3
 vecinos :: Grafo a -> a -> [a]
-vecinos G _ f n = f a
+vecinos (G _ f) n = f n
 
 -- Ejercicio 4
 agNodo :: a -> Grafo a -> Grafo a
-agNodo n G ns f = G (n:ns) f
+agNodo n (G ns f) = G (n:ns) f
 
 -- Ejercicio 5
 sacarNodo :: a -> Grafo a -> Grafo a
-sacarNodo n G ns f = G (filter (!=n) ns) (\x -> if x!=n
-												then filter (!=n) (f x)
+sacarNodo n (G ns f) = G (filter (/=n) ns) (\x -> if x/=n
+												then filter (/=n) (f x)
 												else []) 
 
 -- Ejercicio 6
 agEje :: (a,a) -> Grafo a -> Grafo a
-agEje (n1,n2) G ns f = G ns (\n -> 	if n==n1
+agEje (n1,n2) (G ns f) = G ns (\n -> 	if n==n1
 									then (union [n2] (f n))
 									else f n)
 
@@ -40,8 +41,8 @@ agEje (n1,n2) G ns f = G ns (\n -> 	if n==n1
 -- TODO: Revisar. Creo que elemIndex se usa elemIndex n ns
 -- Tambien, me parece que hay que usar fromJust con elemIndex (http://hackage.haskell.org/package/base-4.8.0.0/docs/Data-Maybe.html#t:Maybe)
 lineal :: [a] -> Grafo a
-lineal ns = G ns (\n -> if (elem n ns) && (n != (last ns))
-						then [ ns !! ((elemIndex n) +1)]
+lineal ns = G ns (\n -> if (elem n ns) && (n /= (last ns))
+						then [ ns !! (fromJust (elemIndex n ns) +1)]
 						else [])
 
 -- Ejercicio 7 Alternativo (me parece mas declarativo)
