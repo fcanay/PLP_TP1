@@ -16,7 +16,7 @@ foldExp fVar fNot fOr fAnd fD fB ex = let rec be foldExp fVar fNot fOr fAnd fD f
                                                   B   exr1      -> fB rec exr
 -- Ejercicio 11   
 visibilidad :: Exp -> Integer
-visibilidad = undefined
+visibilidad = foldExp (const 0) (id) (max) (max) (+1) (+1)
 
 -- Ejercicio 12
 extraer :: Exp -> [Prop]
