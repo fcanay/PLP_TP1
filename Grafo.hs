@@ -7,7 +7,7 @@ instance (Show a) => Show (Grafo a) where
 
 
 -- ---------------------------------Sección 3--------- Grafos ---------------------------
-
+--TODO tener en cuenta el comportamiento de la f cunado el nodo no pertence al grafo
 -- Ejercicio 1
 vacio :: Grafo a
 vacio = G [] (const [])

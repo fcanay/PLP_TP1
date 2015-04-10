@@ -26,9 +26,13 @@ extraer = foldExp (id:[]) id union union id id
 eval :: Modelo -> Mundo -> Exp -> Bool
 eval = undefined
 
+eval':: Modelo -> Exp -> Mundo -> Bool
+eval' = undefined
+
 -- Ejercicio 14
 valeEn :: Exp -> Modelo -> [Mundo]
-valeEn = undefined
+valeEn exp (K (G ns f) fProp) = [ n | n <- ns, eval m n exp ]
+                                where m = K (G ns f) fProp
 
 -- Ejercicio 15
 quitar :: Exp -> Modelo -> Modelo
