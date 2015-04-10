@@ -24,10 +24,18 @@ extraer = foldExp (id:[]) id union union id id
 
 -- Ejercicio 13
 eval :: Modelo -> Mundo -> Exp -> Bool
-eval = undefined
+eval mod m exp = eval' mod exp m
 
 eval':: Modelo -> Exp -> Mundo -> Bool
-eval' = undefined
+eval' (K (G ns f) fProp) exp = foldExp  (\p -> m -> elem m (fProp p))  
+                                        (\f1 -> (\m -> ! f1 m))  
+                                        (\f1 f2 -> (\m -> (f1 m) || (f2 m)) 
+                                        (\f1 f2 -> (\m -> (f1 m) && (f2 m)) 
+                                        (\f1 -> m -> any f1 (f m))
+                                        (\f1 -> m -> all f1 (f m))
+                                        exp
+--TODO acortar la funcion anterior con composicion
+
 
 -- Ejercicio 14
 valeEn :: Exp -> Modelo -> [Mundo]
