@@ -49,11 +49,7 @@ linealAlt :: [a] -> Grafo a
 linealAlt ns = G ns (\n -> 	if elem n ns
 							then drop (fromJust (elemIndex n ns) + 1) ns
 							else [])
-
-(\n -	if (elem n ns) && (n != (last ns))
-							then [ ns !! ((elemIndex n) +1)]
-							else [])
-
+							
 -- Ejercicio 8
 union :: Grafo a -> Grafo a -> Grafo a
 union (G ns1 f1) (G ns2 f2) = G (union ns1 ns2) (\n -> union (f1 n) (f2 n))
