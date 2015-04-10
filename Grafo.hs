@@ -1,4 +1,5 @@
 module Grafo (Grafo, vacio, nodos, vecinos, agNodo, sacarNodo, agEje, lineal, union, clausura) where
+
 import Data.Maybe
 import qualified Data.List
 data Grafo a = G [a] (a -> [a])
@@ -25,10 +26,10 @@ agNodo :: a -> Grafo a -> Grafo a
 agNodo n (G ns f) = G (n:ns) f
 
 -- Ejercicio 5
-sacarNodo :: (Eq a) => a -> Grafo a -> Grafo a
-sacarNodo n (G ns f) = G (filter (/=n) ns) (\x ->   if x/=n
-                                                    then filter (/=n) (f x)
-                                                    else [])
+sacarNodo :: a -> Grafo a -> Grafo a
+sacarNodo n (G ns f) = G (filter (/=n) ns) (\x -> if x/=n
+                        then filter (/=n) (f x)
+                        else []) 
 
 -- Ejercicio 6
 agEje :: (Eq a) => (a,a) -> Grafo a -> Grafo a
@@ -42,9 +43,8 @@ agEje (n1,n2) (G ns f) = if (elem n2 ns) then
 -- Tambien, me parece que hay que usar fromJust con elemIndex (http://hackage.haskell.org/package/base-4.8.0.0/docs/Data-Maybe.html#t:Maybe)
 lineal :: (Eq a) => [a] -> Grafo a
 lineal ns = G ns (\n -> if (elem n ns) && (n /= (last ns))
-                        then [ ns !! (fromJust (Data.List.elemIndex n ns) +1)]
+                        then [ ns !! (fromJust (Data.List.elemIndex n ns) + 1)]
                         else [])
-
 -- Ejercicio 8
 union :: (Eq a) => Grafo a -> Grafo a -> Grafo a
 union (G ns1 f1) (G ns2 f2) = G (Data.List.union ns1 ns2) (\n -> Data.List.union (f1 n) (f2 n))
