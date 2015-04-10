@@ -7,13 +7,14 @@ import Tipos
 
 -- Ejercicio 10
 --foldExp :: (Prop -> b) -> (b -> b) -> (b -> b -> b) -> (b -> b -> b) -> (b -> b) -> (b -> b) -> Exp -> b
-foldExp fVar fNot fOr fAnd fD fB ex = let rec be foldExp fVar fNot fOr fAnd fD fB
-                                      case ex of  Var p         -> fVar p
+foldExp fVar fNot fOr fAnd fD fB ex = case ex of  
+                                                  Var p         -> fVar p
                                                   Not exr       -> fNot rec exr
                                                   Or  exr1 exr2 -> fOr  (rec exr1) (rec exr2) 
                                                   And exr1 exr2 -> fAnd (rec exr1) (rec exr2)
                                                   D   exr1      -> fD rec exr
                                                   B   exr1      -> fB rec exr
+                                                  where rec = foldExp fVar fNot fOr fAnd fD fB
 -- Ejercicio 11   
 visibilidad :: Exp -> Integer
 visibilidad = foldExp (const 0) id max max (+1) (+1)
@@ -28,7 +29,7 @@ eval mod m exp = eval' mod exp m
 
 eval':: Modelo -> Exp -> Mundo -> Bool
 eval' (K (G ns f) fProp) exp = foldExp  (\p -> m -> elem m (fProp p))  
-                                        (\f1 -> (\m -> ! f1 m))  
+                                        (\f1 -> (\m -> not(f1 m)))  
                                         (\f1 f2 -> (\m -> (f1 m) || (f2 m)) 
                                         (\f1 f2 -> (\m -> (f1 m) && (f2 m)) 
                                         (\f1 -> m -> any f1 (f m))
@@ -40,7 +41,7 @@ eval' (K (G ns f) fProp) exp = foldExp  (\p -> m -> elem m (fProp p))
 -- Ejercicio 14
 valeEn :: Exp -> Modelo -> [Mundo]
 valeEn exp (K (G ns f) fProp) = [ n | n <- ns, eval m n exp ]
-                                where m = K (G ns f) fProp
+                                                    where m = K (G ns f) fProp
 
 -- Ejercicio 15
 quitar :: Exp -> Modelo -> Modelo

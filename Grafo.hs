@@ -26,15 +26,15 @@ agNodo :: a -> Grafo a -> Grafo a
 agNodo n (G ns f) = G (n:ns) f
 
 -- Ejercicio 5
-sacarNodo :: a -> Grafo a -> Grafo a
+sacarNodo ::(Eq a) =>  a -> Grafo a -> Grafo a
 sacarNodo n (G ns f) = G (filter (/=n) ns) (\x -> if x/=n
                         then filter (/=n) (f x)
                         else []) 
 
 -- Ejercicio 6
-agEje :: (a,a) -> Grafo a -> Grafo a
+agEje :: (Eq a) => (a,a) -> Grafo a -> Grafo a
 agEje (n1,n2) (G ns f) = G ns (\n ->  if n==n1
-                  then (union [n2] (f n))
+                  then (Data.List.union [n2] (f n))
                   else f n)
 
 -- Ejercicio 7
