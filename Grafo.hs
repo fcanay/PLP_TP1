@@ -26,7 +26,7 @@ agNodo n G ns f = G (n:ns) f
 
 -- Ejercicio 5
 sacarNodo :: a -> Grafo a -> Grafo a
-sacarNodo n G ns f = G (filter (!=n) ns) (\x -> filter (!=n) (f x)) 
+sacarNodo n G ns f = G (filter (!=n) ns) (\x -> if x!=n then filter (!=n) (f x) otherwise []) 
 
 -- Ejercicio 6
 agEje :: (a,a) -> Grafo a -> Grafo a
