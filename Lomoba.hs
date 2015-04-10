@@ -36,7 +36,11 @@ valeEn exp (K (G ns f) fProp) = [ n | n <- ns, eval m n exp ]
 
 -- Ejercicio 15
 quitar :: Exp -> Modelo -> Modelo
-quitar = undefined
+quitar exp m = foldr quitarMundo m (valeEn exp m)
+
+
+quitarMundo :: Mundo -> Modelo -> Modelo
+quitarMundo n (K g fProp) = K (sacarNodo g) (\p -> filter (!=n) (fProp p))
 
 -- Ejercicio 16
 cierto :: Modelo -> Exp -> Bool
