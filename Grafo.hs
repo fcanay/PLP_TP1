@@ -7,6 +7,8 @@ data Grafo a = G [a] (a -> [a])
 instance (Show a) => Show (Grafo a) where
     show (G n e) = "[\n" ++ concat (map (\x -> " " ++ show x ++ " -> " ++ show (e x) ++ "\n") n) ++ "]"
 
+--Son iguales sii los nodos son los mismos, y para todo nodo que tengan, sus "incididores" (incidentes?) son iguales
+--La igualdad la sacamos por igualdad de conjuntos. Checkeamos si la union es igual a la interseccion
 instance Eq a => Eq (Grafo a) where  
         G n1 e1 == G n2 e2 = (Data.List.union n1 n2 == Data.List.intersect n1 n2)	&&
 							foldr (\x res -> (Data.List.union (e1 x) (e2 x) == Data.List.intersect (e1 x) (e2 x)) && res) True n1
@@ -65,20 +67,12 @@ unPasoClausura (G ns f) = G ns (\n -> Data.List.union [n] (Data.List.union (f n)
 
 clausuraSanti :: (Eq a) => Grafo a -> Grafo a
 clausuraSanti = puntoFijo unPasoClausura
-								
+
+--TODO Preguntar si esta es la solucion (tiene recursion explicita)					
 puntoFijo :: (Eq a) => (a -> a) -> a -> a
-puntoFijo f = (\n -> buscoPuntoFijo f n)
-
---TODO Preguntar si esta es la solucion (tiene recursion explicita)
-buscoPuntoFijo :: (Eq a) => (a -> a) -> a -> a
-buscoPuntoFijo f x = 	if f x == x
-						then x
-						else buscoPuntoFijo f (f x)
-
---puntofijoF :: (Eq a) => (a -> a) -> (a -> a)
---puntofijoF f = (\n -> foldr id [1..])
-
-
+puntoFijo f x = if f x == x
+				then x
+				else puntoFijo f (f x)
 
 
 
