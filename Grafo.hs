@@ -7,6 +7,10 @@ data Grafo a = G [a] (a -> [a])
 instance (Show a) => Show (Grafo a) where
     show (G n e) = "[\n" ++ concat (map (\x -> " " ++ show x ++ " -> " ++ show (e x) ++ "\n") n) ++ "]"
 
+instance Eq a=> Eq (Grafo a) where  
+        G n1 e1 == G n2 e2 = n1 == n2 &&
+							foldr (\x res -> e1 x == e2 x && res) True n1
+
 -- ---------------------------------Sección 3--------- Grafos ---------------------------
 --TODO tener en cuenta el comportamiento de la f cunado el nodo no pertence al grafo
 -- Ejercicio 1
@@ -54,18 +58,22 @@ clausura (G ns f) = foldr (\x g -> unPasoClausura g) (G ns f) ns
 --puntofijo kleene(G ns f)  
 
 unPasoClausura :: (Eq a) => Grafo a -> Grafo a
-unPasoClausura (G ns f) = G ns (\n -> Data.List.union [n] (Data.List.union (f n) (foldr (\x rec ->    if elem x (f n) 
+unPasoClausura (G ns f) = G ns (\n -> Data.List.union [n] (Data.List.union (f n) (foldr (\x rec ->  if elem x (f n) 
                                                                                                     then Data.List.union (f x) rec 
                                                                                                     else rec) 
                                                                                                     [] ns)))
 
-
---puntofijo :: (Eq a) => (a -> a) -> (a -> a)
---puntofijo f = (\n -> buscoPuntoFijo f n)
+clausuraSanti :: (Eq a) => Grafo a -> Grafo a
+clausuraSanti = puntoFijo unPasoClausura
+								
+puntoFijo :: (Eq a) => (a -> a) -> a -> a
+puntoFijo f = (\n -> buscoPuntoFijo f n)
 
 --TODO Preguntar si esta es la solucion (tiene recursion explicita)
---buscoPuntoFijo :: (a -> a) -> a -> a
---buscoPuntoFijo f x = if buscoPuntoFijo x == x then x else buscoPuntoFijo (f x)
+buscoPuntoFijo :: (Eq a) => (a -> a) -> a -> a
+buscoPuntoFijo f x = 	if f x == x
+						then x
+						else buscoPuntoFijo f (f x)
 
 --puntofijoF :: (Eq a) => (a -> a) -> (a -> a)
 --puntofijoF f = (\n -> foldr id [1..])
