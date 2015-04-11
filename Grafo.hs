@@ -7,9 +7,9 @@ data Grafo a = G [a] (a -> [a])
 instance (Show a) => Show (Grafo a) where
     show (G n e) = "[\n" ++ concat (map (\x -> " " ++ show x ++ " -> " ++ show (e x) ++ "\n") n) ++ "]"
 
-instance Eq a=> Eq (Grafo a) where  
-        G n1 e1 == G n2 e2 = n1 == n2 &&
-							foldr (\x res -> e1 x == e2 x && res) True n1
+instance Eq a => Eq (Grafo a) where  
+        G n1 e1 == G n2 e2 = (Data.List.union n1 n2 == Data.List.intersect n1 n2)	&&
+							foldr (\x res -> (Data.List.union (e1 x) (e2 x) == Data.List.intersect (e1 x) (e2 x)) && res) True n1
 
 -- ---------------------------------Sección 3--------- Grafos ---------------------------
 --TODO tener en cuenta el comportamiento de la f cunado el nodo no pertence al grafo
