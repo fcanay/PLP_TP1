@@ -27,20 +27,18 @@ agNodo n (G ns f) = G (n:ns) f
 
 -- Ejercicio 5
 sacarNodo ::(Eq a) =>  a -> Grafo a -> Grafo a
-sacarNodo n (G ns f) = G (filter (/=n) ns) (\x -> if x/=n
-                        then filter (/=n) (f x)
-                        else []) 
+sacarNodo n (G ns f) = G (filter (/=n) ns) (\x ->   if x/=n
+                                                    then filter (/=n) (f x)
+                                                    else [])    
 
 -- Ejercicio 6
 agEje :: (Eq a) => (a,a) -> Grafo a -> Grafo a
-agEje (n1,n2) (G ns f) = if (elem n2 ns) then
+agEje (n1,n2) (G ns f) =    if (elem n2 ns) then
                                 G ns (\n -> if n == n1 then (Data.List.union [n2] (f n)) else f n)
                             else
                                 G ns f
 
 -- Ejercicio 7
--- TODO: Revisar. Creo que elemIndex se usa elemIndex n ns
--- Tambien, me parece que hay que usar fromJust con elemIndex (http://hackage.haskell.org/package/base-4.8.0.0/docs/Data-Maybe.html#t:Maybe)
 lineal :: (Eq a) => [a] -> Grafo a
 lineal ns = G ns (\n -> if (elem n ns) && (n /= (last ns))
                         then [ ns !! (fromJust (Data.List.elemIndex n ns) + 1)]
@@ -51,14 +49,26 @@ union (G ns1 f1) (G ns2 f2) = G (Data.List.union ns1 ns2) (\n -> Data.List.union
 --TODO Ver q pasa si n no pertenecia a uno de los dos
 
 -- Ejercicio 9
-clausura :: Grafo a -> Grafo a
-clausura = undefined
+clausura :: (Eq a) => Grafo a -> Grafo a
+clausura (G ns f) = foldr (\x g -> unPasoClausura g) (G ns f) ns 
+--puntofijo kleene(G ns f)  
+
+unPasoClausura :: (Eq a) => Grafo a -> Grafo a
+unPasoClausura (G ns f) = G ns (\n -> Data.List.union [n] (Data.List.union (f n) (foldr (\x rec ->    if elem x (f n) 
+                                                                                                    then Data.List.union (f x) rec 
+                                                                                                    else rec) 
+                                                                                                    [] ns)))
 
 
+--puntofijo :: (Eq a) => (a -> a) -> (a -> a)
+--puntofijo f = (\n -> buscoPuntoFijo f n)
 
+--TODO Preguntar si esta es la solucion (tiene recursion explicita)
+--buscoPuntoFijo :: (a -> a) -> a -> a
+--buscoPuntoFijo f x = if buscoPuntoFijo x == x then x else buscoPuntoFijo (f x)
 
-
-
+--puntofijoF :: (Eq a) => (a -> a) -> (a -> a)
+--puntofijoF f = (\n -> foldr id [1..])
 
 
 
