@@ -57,8 +57,8 @@ union (G ns1 f1) (G ns2 f2) = G (Data.List.union ns1 ns2) (\n -> Data.List.union
 -- Ejercicio 9
 clausura :: (Eq a) => Grafo a -> Grafo a
 clausura (G ns f) = foldr (\x g -> unPasoClausura g) (G ns f) ns 
---puntofijo kleene(G ns f)  
 
+--Uno 'n' (el nodo) a 'f n' (a los que incidia) al foldr (los de la clausura)
 unPasoClausura :: (Eq a) => Grafo a -> Grafo a
 unPasoClausura (G ns f) = G ns (\n -> Data.List.union [n] (Data.List.union (f n) (foldr (\x rec ->  if elem x (f n) 
                                                                                                     then Data.List.union (f x) rec 
