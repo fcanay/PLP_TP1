@@ -39,10 +39,13 @@ sacarNodo n (G ns f) = G (filter (/=n) ns) (\x ->   if x/=n
 
 -- Ejercicio 6
 agEje :: (Eq a) => (a,a) -> Grafo a -> Grafo a
-agEje (n1,n2) (G ns f) =    if (elem n2 ns) then
+agEje (n1,n2) (G ns f) =    if (elem n2 ns) && (elem n1 ns) then
                                 G ns (\n -> if n == n1 then (Data.List.union [n2] (f n)) else f n)
                             else
                                 G ns f
+--TODO Aca no deberiamos ver que n1 pertenezca al grafo antes de hacer el union?
+--      se lo agregue por las dudas de ultima se saca.
+
 
 -- Ejercicio 7
 lineal :: (Eq a) => [a] -> Grafo a
@@ -52,7 +55,8 @@ lineal ns = G ns (\n -> if (elem n ns) && (n /= (last ns))
 -- Ejercicio 8
 union :: (Eq a) => Grafo a -> Grafo a -> Grafo a
 union (G ns1 f1) (G ns2 f2) = G (Data.List.union ns1 ns2) (\n -> Data.List.union (f1 n) (f2 n))
---TODO Ver q pasa si n no pertenecia a uno de los dos
+--TODO Ver q pasa si n no pertenecia a uno de los dos. 
+--Es union [] [], da[]
 
 -- Ejercicio 9
 clausura :: (Eq a) => Grafo a -> Grafo a
