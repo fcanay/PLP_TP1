@@ -1,4 +1,4 @@
-module Grafo (Grafo, vacio, nodos, vecinos, agNodo, sacarNodo, agEje, lineal, union, clausura) where
+module Grafo (Grafo(G), vacio, nodos, vecinos, agNodo, sacarNodo, agEje, lineal, union, clausura) where
 
 import Data.Maybe
 import qualified Data.List
@@ -9,9 +9,9 @@ instance (Show a) => Show (Grafo a) where
 
 --Son iguales sii los nodos son los mismos, y para todo nodo que tengan, sus "incididores" (incidentes?) son iguales
 --La igualdad la sacamos por igualdad de conjuntos. Checkeamos si la union es igual a la interseccion
-instance Eq a => Eq (Grafo a) where  
-        G n1 e1 == G n2 e2 = (Data.List.union n1 n2 == Data.List.intersect n1 n2)	&&
-							foldr (\x res -> (Data.List.union (e1 x) (e2 x) == Data.List.intersect (e1 x) (e2 x)) && res) True n1
+--instance Eq a => Eq (Grafo a) where  
+--        G n1 e1 == G n2 e2 = (Data.List.union n1 n2 == Data.List.intersect n1 n2)	&&
+--							foldr (\x res -> (Data.List.union (e1 x) (e2 x) == Data.List.intersect (e1 x) (e2 x)) && res) True n1
 
 -- ---------------------------------Sección 3--------- Grafos ---------------------------
 --TODO tener en cuenta el comportamiento de la f cunado el nodo no pertence al grafo
@@ -65,8 +65,8 @@ unPasoClausura (G ns f) = G ns (\n -> Data.List.union [n] (Data.List.union (f n)
                                                                                                     else rec) 
                                                                                                     [] ns)))
 
-clausuraSanti :: (Eq a) => Grafo a -> Grafo a
-clausuraSanti = puntoFijo unPasoClausura
+--clausuraSanti :: (Eq a) => Grafo a -> Grafo a
+--clausuraSanti = puntoFijo unPasoClausura
 
 --TODO Preguntar si esta es la solucion (tiene recursion explicita)					
 puntoFijo :: (Eq a) => (a -> a) -> a -> a
