@@ -6,6 +6,10 @@ import Test.HUnit
 import Data.List
 import Data.Maybe
 
+-- Ejemplos que se me fueron ocurriendo para testear
+-- Figura 1 del tp
+-- K (agEje (1,2) $ agEje (1,3) $ agNodo 3 $ agNodo 2 $ agNodo 1 $ vacio) (\x -> if x == "p" then [1] else (if x == "q" then [2,3] else (if x == "r" then [2] else [0])))
+
 -- evaluar t para correr todos los tests
 t = runTestTT allTests
 
@@ -26,7 +30,14 @@ testsParser = test [
 
 testsGrafo = test [
 	[1] ~~? (nodos (agNodo 1 vacio)),
-	[1,2] ~~? (nodos (agNodo 2 (agNodo 1 vacio)))
+	[1,2] ~~? (nodos (agNodo 2 (agNodo 1 vacio))),
+	[] ~~? (nodos (sacarNodo 1 (agNodo 1 vacio))),
+	[1,2] ~~? (nodos (union (agNodo 1 vacio) (agNodo 2 vacio))),
+	[1,2] ~~? (nodos (union (agNodo 1 vacio) (agNodo 2 (agNodo 1 vacio)))),
+	[1,2,3,4] ~~? (nodos (clausura(lineal[1..4]))),
+	[1,2,3,4] ~~? (vecinos (clausura(lineal[1..4])) 1),
+	[2] ~~? (vecinos (union (agNodo 1 vacio) (agEje (1,2) (agNodo 2 (agNodo 1 vacio)))) 1),
+	[] ~~? (vecinos (union (agNodo 1 vacio) (agEje (1,2) (agNodo 2 (agNodo 1 vacio)))) 2)
 	]
 
 ---------------

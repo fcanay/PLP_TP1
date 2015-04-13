@@ -48,7 +48,6 @@ valeEn exp (K (G ns f) fProp) = [ n | n <- ns, eval m n exp ]
 quitar :: Exp -> Modelo -> Modelo
 quitar exp m = foldr quitarMundo m (valeEn exp m)
 
---Santi: Quisiste poner 'sacarNodo n g'?
 quitarMundo :: Mundo -> Modelo -> Modelo
 quitarMundo n (K g fProp) = K (sacarNodo n g) (\p -> filter (/=n) (fProp p))
 
