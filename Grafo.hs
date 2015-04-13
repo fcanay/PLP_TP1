@@ -45,6 +45,7 @@ agEje (n1,n2) (G ns f) =    if (elem n2 ns) && (elem n1 ns) then
                                 G ns f
 --TODO Aca no deberiamos ver que n1 pertenezca al grafo antes de hacer el union?
 --      se lo agregue por las dudas de ultima se saca.
+--Santi: Me parece que va bien
 
 
 -- Ejercicio 7
@@ -57,6 +58,7 @@ union :: (Eq a) => Grafo a -> Grafo a -> Grafo a
 union (G ns1 f1) (G ns2 f2) = G (Data.List.union ns1 ns2) (\n -> Data.List.union (f1 n) (f2 n))
 --TODO Ver q pasa si n no pertenecia a uno de los dos. 
 --Es union [] [], da[]
+--Santi: Creo que seria algo como [1,2] [] = [1,2] porque no esta en uno, pero si en otro. Para mi esta bien.
 
 -- Ejercicio 9
 clausura :: (Eq a) => Grafo a -> Grafo a

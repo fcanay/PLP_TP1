@@ -16,8 +16,8 @@ foldExp fVar fNot fOr fAnd fD fB ex = case ex of
                                                   B   exr1      -> fB (rec exr1)
                                                   where rec = foldExp fVar fNot fOr fAnd fD fB
 -- Ejercicio 11   
---visibilidad :: Exp -> Integer
---visibilidad = foldExp (const 0) id max max (+1) (+1)
+visibilidad :: Exp -> Integer
+visibilidad = foldExp (const 0) id max max (+1) (+1)
 
 -- Ejercicio 12
 extraer :: Exp -> [Prop]
@@ -27,7 +27,7 @@ extraer = foldExp (:[]) id Data.List.union Data.List.union id id
 eval :: Modelo -> Mundo -> Exp -> Bool
 eval mod m exp = eval' mod exp m
 
---Santi: Por que el 'm' (de mundo) no lo pones a la izq y lo pedis en todas las lambdas?
+--Santi: Por que el 'm' (de mundo) no lo pones a la izq y lo pedis en todas las lambdas? Es por la ejecucion parcial?
 eval':: Modelo -> Exp -> Mundo -> Bool
 eval' (K (G ns f) fProp) exp = foldExp  (\p m -> elem m (fProp p))  
                                         (\f1 -> (\m -> not(f1 m)))  
