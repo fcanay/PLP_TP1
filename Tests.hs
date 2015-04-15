@@ -35,9 +35,11 @@ testsGrafo = test [
 	[1,2] ~~? (nodos (union (agNodo 1 vacio) (agNodo 2 vacio))),
 	[1,2] ~~? (nodos (union (agNodo 1 vacio) (agNodo 2 (agNodo 1 vacio)))),
 	[1,2,3,4] ~~? (nodos (clausura(lineal[1..4]))),
+	[2] ~~? (vecinos (lineal[1..4]) 1),
 	[1,2,3,4] ~~? (vecinos (clausura(lineal[1..4])) 1),
 	[2] ~~? (vecinos (union (agNodo 1 vacio) (agEje (1,2) (agNodo 2 (agNodo 1 vacio)))) 1),
-	[] ~~? (vecinos (union (agNodo 1 vacio) (agEje (1,2) (agNodo 2 (agNodo 1 vacio)))) 2)
+	[] ~~? (vecinos (union (agNodo 1 vacio) (agEje (1,2) (agNodo 2 (agNodo 1 vacio)))) 2),
+	[] ~~? (vecinos (sacarNodo 3 (clausura(lineal[1..4]))) 2),
 	]
 
 ---------------
