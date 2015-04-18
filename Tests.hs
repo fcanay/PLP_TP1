@@ -3,7 +3,7 @@ import Tipos
 import Lomoba
 import Parser
 import Test.HUnit
-import Data.List
+import qualified Data.List
 import Data.Maybe
 
 -- Ejemplos que se me fueron ocurriendo para testear
