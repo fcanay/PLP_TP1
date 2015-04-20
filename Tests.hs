@@ -49,12 +49,13 @@ k = K (lineal [1]) (\x -> if ((x == "p") || (x == "q")) then [1] else [])
 k1 = K (agEje (1,2) $ agEje (1,3) $ agNodo 3 $ agNodo 2 $ agNodo 1 $ vacio)
 
 testsLomoba = test [
-	0 ~~? (visibilidad (parse "p")),
-	1 ~~? (visibilidad (parse "<>p")),
-	2 ~~? (visibilidad (parse "<>!<>p")),
-	2 ~~? (visibilidad (parse "<><>p || <><>q")),
-	3 ~~? (visibilidad (parse "<>(<>p || <><>q))")),
-	3 ~~? (visibilidad (parse "[](<>p && <>[]q))")),
+	0 ~=? (visibilidad (parse "p")),
+	1 ~=? (visibilidad (parse "<>p")),
+	2 ~=? (visibilidad (parse "<>!<>p")),
+	2 ~=? (visibilidad (parse "<><>p || <><>q")),
+	3 ~=? (visibilidad (parse "<>(<>p || <><>q))")),
+	3 ~=? (visibilidad (parse "[](<>p && <>[]q))")),
+
 	["p"] ~~? (extraer (parse "p")),
 	["p"] ~~? (extraer (parse "<>p")),
 	["p"] ~~? (extraer (parse "<>!<>p")),
@@ -62,15 +63,14 @@ testsLomoba = test [
 	["p", "q"] ~~? (extraer (parse "<>(<>p || <><>q))")),
 	["p", "q"] ~~? (extraer (parse "[](<>p && <>[]q))")),
 
-
-	True ~~? (eval k 1  (parse "p")),
-	False ~~? (eval k 1  (parse "!p")),
-	False ~~? (eval k 1  (parse "r")),
-	True ~~? (eval k 1  (parse "!r")),
-	True ~~? (eval k 1  (parse "p && q")),
-	True ~~? (eval k 1  (parse "p || q")),
-	True ~~? (eval k 1  (parse "p || r")),
-	False ~~? (eval k 1  (parse "r || j"))]
+	True ~=? (eval k 1  (parse "p")),
+	False ~=? (eval k 1  (parse "!p")),
+	False ~=? (eval k 1  (parse "r")),
+	True ~=? (eval k 1  (parse "!r")),
+	True ~=? (eval k 1  (parse "p && q")),
+	True ~=? (eval k 1  (parse "p || q")),
+	True ~=? (eval k 1  (parse "p || r")),
+	False ~=? (eval k 1  (parse "r || j"))]
 
 ---------------
 --  helpers  --
