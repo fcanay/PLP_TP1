@@ -1,4 +1,4 @@
-module Grafo (Grafo(G), vacio, nodos, vecinos, agNodo, sacarNodo, agEje, lineal, union, clausura) where
+module Grafo (Grafo, vacio, nodos, vecinos, agNodo, sacarNodo, agEje, lineal, union, clausura) where
 
 import Data.Maybe
 import qualified Data.List

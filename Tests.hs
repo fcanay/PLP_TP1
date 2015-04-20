@@ -15,7 +15,8 @@ t = runTestTT allTests
 
 allTests = test [
 	"parser" ~: testsParser,
-	"grafo" ~: testsGrafo
+	"grafo" ~: testsGrafo,
+	"lomoba" ~: testsLomoba
 	]
 
 testsParser = test [
@@ -35,21 +36,41 @@ testsGrafo = test [
 	[1,2] ~~? (nodos (union (agNodo 1 vacio) (agNodo 2 vacio))),
 	[1,2] ~~? (nodos (union (agNodo 1 vacio) (agNodo 2 (agNodo 1 vacio)))),
 	[1,2,3,4] ~~? (nodos (clausura(lineal[1..4]))),
+	[2] ~~? (vecinos (lineal[1..4]) 1),
 	[1,2,3,4] ~~? (vecinos (clausura(lineal[1..4])) 1),
 	[2] ~~? (vecinos (union (agNodo 1 vacio) (agEje (1,2) (agNodo 2 (agNodo 1 vacio)))) 1),
-	[] ~~? (vecinos (union (agNodo 1 vacio) (agEje (1,2) (agNodo 2 (agNodo 1 vacio)))) 2)
+	[] ~~? (vecinos (union (agNodo 1 vacio) (agEje (1,2) (agNodo 2 (agNodo 1 vacio)))) 2),
+	[] ~~? (vecinos (sacarNodo 3 (clausura(lineal[1..4]))) 2)
 	]
-testLomoba2 = [
+
+
+testsLomoba = test [
+	0 ~~? visibilidad (parse "p"),
+	1 ~~? visibilidad (parse "<>p"),
+	2 ~~? visibilidad (parse "<>!<>p"),
+	2 ~~? visibilidad (parse "<><>p || <><>q"),
+	3 ~~? visibilidad (parse "<>(<>p || <><>q))"),
+	3 ~~? visibilidad (parse "[](<>p && <>[]q))"),
+	["p"] ~~? extraer (parse "p"),
+	["p"] ~~? extraer (parse "<>p"),
+	["p"] ~~? extraer (parse "<>!<>p"),
+	["p", "q"] ~~? extraer (parse "<><>p || <><>q"),
+	["p", "q"] ~~? extraer (parse "<>(<>p || <><>q))"),
+	["p", "q"] ~~? extraer (parse "[](<>p && <>[]q))"),
+
+
 	k = K (lineal [1]) (\x -> if x == "p" or x == "q" then [1] else [])
-	True ~~? eval k 1  (parse "p")
-	False ~~? eval k 1  (parse "!p")
-	False ~~? eval k 1  (parse "r")
-	True ~~? eval k 1  (parse "!r")
-	True ~~? eval k 1  (parse "p && q")
-	True ~~? eval k 1  (parse "p || q")
-	True ~~? eval k 1  (parse "p || r")
-	False ~~? eval k 1  (parse "r || j")
+	True ~~? (eval k 1  (parse "p"))
+	False ~~? (eval k 1  (parse "!p"))
+	False ~~? (eval k 1  (parse "r"))
+	True ~~? (eval k 1  (parse "!r"))
+	True ~~? (eval k 1  (parse "p && q"))
+	True ~~? (eval k 1  (parse "p || q"))
+	True ~~? (eval k 1  (parse "p || r"))
+	False ~~? (eval k 1  (parse "r || j"))
+	
 ]
+
 ---------------
 --  helpers  --
 ---------------

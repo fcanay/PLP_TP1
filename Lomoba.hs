@@ -27,22 +27,19 @@ extraer = foldExp (:[]) id Data.List.union Data.List.union id id
 eval :: Modelo -> Mundo -> Exp -> Bool
 eval mod m exp = eval' mod exp m
 
---Santi: Por que el 'm' (de mundo) no lo pones a la izq y lo pedis en todas las lambdas? Es por la ejecucion parcial?
 eval':: Modelo -> Exp -> Mundo -> Bool
-eval' (K (G ns f) fProp) exp = foldExp  (\p m -> elem m (fProp p))  
-                                        (\f1 -> (\m -> not(f1 m)))  
-                                        (\f1 f2 -> (\m -> (f1 m) || (f2 m))) 
-                                        (\f1 f2 -> (\m -> (f1 m) && (f2 m))) 
-                                        (\f1 m -> any f1 (f m))
-                                        (\f1 m -> all f1 (f m))
-                                        exp
-										
---TODO acortar la funcion anterior con composicion
-
+eval' (K g fProp) = foldExp (\p m -> elem m (fProp p))
+                            (\f1 -> (\m -> not(f1 m)))  
+                            (\f1 f2 -> (\m -> (f1 m) || (f2 m))) 
+                            (\f1 f2 -> (\m -> (f1 m) && (f2 m))) 
+                            (\f1 m -> any f1 (vecinos g m))
+                            (\f1 m -> all f1 (vecinos g m))
+                                 
+								
 -- Ejercicio 14
 valeEn :: Exp -> Modelo -> [Mundo]
-valeEn exp (K (G ns f) fProp) = [ n | n <- ns, eval m n exp ]
-                                where m = K (G ns f) fProp
+valeEn exp (K g fProp) = [ n | n <- (nodos g), eval m n exp ]
+                                where m = K g fProp
 
 -- Ejercicio 15
 quitar :: Exp -> Modelo -> Modelo
@@ -53,5 +50,5 @@ quitarMundo n (K g fProp) = K (sacarNodo n g) (\p -> filter (/=n) (fProp p))
 
 -- Ejercicio 16
 cierto :: Modelo -> Exp -> Bool
-cierto (K (G ns f) fProp) exp = all (eval' m exp) ns
-                                      where m = (K (G ns f) fProp)
+cierto (K g fProp) exp = all (eval' m exp) (nodos g)
+                          where m = (K g fProp)
