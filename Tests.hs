@@ -46,8 +46,8 @@ testsGrafo = test [
 
 	
 k = K (lineal [1]) (\x -> if (x == "p") || (x == "q") then [1] else [])
-k1 = K (agEje (1,2) $ agEje (1,3) $ agNodo 3 $ agNodo 2 $ agNodo 1 $ vacio) (\x -> if x == "p" then [2,3] else (if x == "q" then [3] else[]]))
-k2 = K (lineal [1..3]) 
+k1 = K (agEje (1,2) $ agEje (1,3) $ agNodo 3 $ agNodo 2 $ agNodo 1 $ vacio) (\x -> if x == "p" then [2,3] else (if x == "q" then [3] else[]))
+--k2 = K (lineal [1..3]) 
 
 testsLomoba = test [
 	0 ~=? (visibilidad (parse "p")),
@@ -71,16 +71,17 @@ testsLomoba = test [
 	True ~=? (eval k 1  (parse "p && q")),
 	True ~=? (eval k 1  (parse "p || q")),
 	True ~=? (eval k 1  (parse "p || r")),
-	False ~=? (eval k 1  (parse "r || j"))]
+	False ~=? (eval k 1  (parse "r || j")),
 
-	True ~=? (eval k1 1  (parse "<>p"))
-	True ~=? (eval k1 1  (parse "[]p"))
-	False ~=? (eval k1 1  (parse "<>q"))
-	True ~=? (eval k1 1  (parse "[]q"))
-	False ~=? (eval k1 1  (parse "<>r"))
-	False ~=? (eval k1 1  (parse "[]r"))
-	True ~=? (eval k1 2  (parse "<>r"))
-	True ~=? (eval k1 2  (parse "[]r"))]]	
+	True ~=? (eval k1 1  (parse "<>p")),
+	True ~=? (eval k1 1  (parse "[]p")),
+	False ~=? (eval k1 1  (parse "<>q")),
+	True ~=? (eval k1 1  (parse "[]q")),
+	False ~=? (eval k1 1  (parse "<>r")),
+	False ~=? (eval k1 1  (parse "[]r")),
+	True ~=? (eval k1 2  (parse "<>r")),
+	True ~=? (eval k1 2  (parse "[]r"))
+	]
 
 ---------------
 --  helpers  --
