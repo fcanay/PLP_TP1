@@ -27,18 +27,15 @@ extraer = foldExp (:[]) id Data.List.union Data.List.union id id
 eval :: Modelo -> Mundo -> Exp -> Bool
 eval mod m exp = eval' mod exp m
 
---Santi: Por que el 'm' (de mundo) no lo pones a la izq y lo pedis en todas las lambdas? Es por la ejecucion parcial?
 eval':: Modelo -> Exp -> Mundo -> Bool
-eval' (K g fProp) exp = foldExp  (\p m -> elem m (fProp p))
-                                 (\f1 -> (\m -> not(f1 m)))  
-                                 (\f1 f2 -> (\m -> (f1 m) || (f2 m))) 
-                                 (\f1 f2 -> (\m -> (f1 m) && (f2 m))) 
-                                 (\f1 m -> any f1 (vecinos g m))
-                                 (\f1 m -> all f1 (vecinos g m))
-                                 exp
-										
---TODO acortar la funcion anterior con composicion
-
+eval' (K g fProp) = foldExp (\p m -> elem m (fProp p))
+                            (\f1 -> (\m -> not(f1 m)))  
+                            (\f1 f2 -> (\m -> (f1 m) || (f2 m))) 
+                            (\f1 f2 -> (\m -> (f1 m) && (f2 m))) 
+                            (\f1 m -> any f1 (vecinos g m))
+                            (\f1 m -> all f1 (vecinos g m))
+                                 
+								
 -- Ejercicio 14
 valeEn :: Exp -> Modelo -> [Mundo]
 valeEn exp (K g fProp) = [ n | n <- (nodos g), eval m n exp ]
