@@ -49,7 +49,7 @@ testsGrafo = test [
 k = K (lineal [1]) (\x -> if (x == "p") || (x == "q") then [1] else [])
 k1 = K (agEje (1,2) $ agEje (1,3) $ agNodo 3 $ agNodo 2 $ agNodo 1 $ vacio) (\x -> if x == "p" then [2,3] else (if x == "q" then [3] else[]))
 figura1 = K (agEje (1,2) $ agEje (1,3) $ agNodo 3 $ agNodo 2 $ agNodo 1 $ vacio) (\x -> if x == "p" then [1] else (if x == "q" then [2,3] else (if x == "r" then [2] else [0])))
---k2 = K (lineal [1..3]) 
+k2 = K (clausura $ agEje (3,1) $ lineal [1..3])  (\x -> if x == "p" then [1,2,3] else (if x == "q" then [3] else[]))
 
 testsLomoba = test [
 	0 ~=? (visibilidad (parse "p")),
@@ -81,8 +81,6 @@ testsLomoba = test [
 	False ~=? (eval k1 1  (parse "[]q")),
 	False ~=? (eval k1 1  (parse "<>r")),
 	False ~=? (eval k1 1  (parse "[]r")),
-	False ~=? (eval k1 2  (parse "<>r")), --esto esta mal
-	True ~=? (eval k1 2  (parse "[]r")),
 
     [1] ~~? (valeEn (parse "p") figura1),
     [2,3] ~~? (valeEn (parse "!p") figura1),
@@ -97,17 +95,15 @@ testsLomoba = test [
 
     [2,3] ~~? (valeEn (parse "q") (quitar (parse "p") figura1)),
     [] ~~? (valeEn (parse "dameFalse") (quitar (parse "[][]!q") figura1)),
-    [2] ~~? (valeEn (parse "r") (quitar (parse "[]!q") figura1))
+    [] ~~? (valeEn (parse "r") (quitar (parse "[]q") figura1)),
 
-    --[1] ~~? (quitar (parse "!p") figura1),
-    --[2,3] ~~? (quitar (parse "<>q") figura1),
-    --[1] ~~? (quitar (parse "[]r") figura1),
-    --[1,3] ~~? (quitar (parse "r || j") figura1),
-    --[1] ~~? (quitar (parse "[](r || j)") figura1),
-    --[1,2,3] ~~? (quitar (parse "<>!q") figura1),
-    --[1,2,3] ~~? (quitar (parse "<><>!q") figura1),
-    --[1] ~~? (quitar (parse "[]!q") figura1),
-    --[] ~~? (quitar (parse "[][]!q") figura1)
+	True ~=? (cierto k2 (parse "p")),
+	False ~=? (cierto k2 (parse "q")),
+	True ~=? (cierto k2 (parse "<>p")),
+	True ~=? (cierto k2 (parse "[]p")),
+	True ~=? (cierto k2 (parse "<>q")),
+	False ~=? (cierto k2 (parse "[]q"))
+
 	]
 
 ---------------
