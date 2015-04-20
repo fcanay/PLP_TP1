@@ -39,7 +39,17 @@ testsGrafo = test [
 	[2] ~~? (vecinos (union (agNodo 1 vacio) (agEje (1,2) (agNodo 2 (agNodo 1 vacio)))) 1),
 	[] ~~? (vecinos (union (agNodo 1 vacio) (agEje (1,2) (agNodo 2 (agNodo 1 vacio)))) 2)
 	]
-
+testLomoba2 = [
+	k = K (lineal [1]) (\x -> if x == "p" or x == "q" then [1] else [])
+	True ~~? eval k 1  (parse "p")
+	False ~~? eval k 1  (parse "!p")
+	False ~~? eval k 1  (parse "r")
+	True ~~? eval k 1  (parse "!r")
+	True ~~? eval k 1  (parse "p && q")
+	True ~~? eval k 1  (parse "p || q")
+	True ~~? eval k 1  (parse "p || r")
+	False ~~? eval k 1  (parse "r || j")
+]
 ---------------
 --  helpers  --
 ---------------
