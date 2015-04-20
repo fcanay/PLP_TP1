@@ -72,10 +72,12 @@ testsLomoba = test [
 	True ~=? (eval k 1  (parse "p || r")),
 	False ~=? (eval k 1  (parse "r || j"))
 
-	~=? (eval k1 1  (parse "r || j"))
-
-
-	]
+	True ~=? (eval k1 1  (parse "<>p"))
+	True ~=? (eval k1 1  (parse "[]p"))
+	False ~=? (eval k1 1  (parse "<>q"))
+	True ~=? (eval k1 1  (parse "[]q"))
+	False ~=? (eval k1 1  (parse "<>r"))
+	False ~=? (eval k1 1  (parse "[]r"))]	]
 
 ---------------
 --  helpers  --
