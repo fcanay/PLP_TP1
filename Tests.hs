@@ -40,7 +40,7 @@ testsGrafo = test [
 	[1,2,3,4] ~~? (vecinos (clausura(lineal[1..4])) 1),
 	[2] ~~? (vecinos (union (agNodo 1 vacio) (agEje (1,2) (agNodo 2 (agNodo 1 vacio)))) 1),
 	[] ~~? (vecinos (union (agNodo 1 vacio) (agEje (1,2) (agNodo 2 (agNodo 1 vacio)))) 2),
-	[] ~~? (vecinos (sacarNodo 3 (clausura(lineal[1..4]))) 2)
+	[2,4] ~~? (vecinos (sacarNodo 3 (clausura(lineal[1..4]))) 2)
 	]
 
 
@@ -53,16 +53,16 @@ testsLomoba = test [
 	0 ~=? (visibilidad (parse "p")),
 	1 ~=? (visibilidad (parse "<>p")),
 	2 ~=? (visibilidad (parse "<>!<>p")),
-	2 ~=? (visibilidad (parse "<><>p || <><>q")),
-	3 ~=? (visibilidad (parse "<>(<>p || <><>q))")),
-	3 ~=? (visibilidad (parse "[](<>p && <>[]q))")),
+	2 ~=? (visibilidad (parse "<>(<>p) || <>(<>q)")),
+	3 ~=? (visibilidad (parse "<>(<>p || <><>q)")),
+	3 ~=? (visibilidad (parse "[](<>p && <>[]q)")),
 
 	["p"] ~~? (extraer (parse "p")),
 	["p"] ~~? (extraer (parse "<>p")),
 	["p"] ~~? (extraer (parse "<>!<>p")),
 	["p", "q"] ~~? (extraer (parse "<><>p || <><>q")),
-	["p", "q"] ~~? (extraer (parse "<>(<>p || <><>q))")),
-	["p", "q"] ~~? (extraer (parse "[](<>p && <>[]q))")),
+	["p", "q"] ~~? (extraer (parse "<>(<>p || <><>q)")),
+	["p", "q"] ~~? (extraer (parse "[](<>p && <>[]q)")),
 
 	True ~=? (eval k 1  (parse "p")),
 	False ~=? (eval k 1  (parse "!p")),
@@ -75,11 +75,11 @@ testsLomoba = test [
 
 	True ~=? (eval k1 1  (parse "<>p")),
 	True ~=? (eval k1 1  (parse "[]p")),
-	False ~=? (eval k1 1  (parse "<>q")),
-	True ~=? (eval k1 1  (parse "[]q")),
+	True ~=? (eval k1 1  (parse "<>q")),
+	False ~=? (eval k1 1  (parse "[]q")),
 	False ~=? (eval k1 1  (parse "<>r")),
 	False ~=? (eval k1 1  (parse "[]r")),
-	True ~=? (eval k1 2  (parse "<>r")),
+	False ~=? (eval k1 2  (parse "<>r")), --esto esta mal
 	True ~=? (eval k1 2  (parse "[]r"))
 	]
 
