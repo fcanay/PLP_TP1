@@ -20,8 +20,8 @@ allTests = test [
 	]
 
 testsParser = test [
-	(Var "p") 						~=? (parse "p"),
-	(And (Var "p") (Var "q")) 		~=? (parse "p && q"),
+	(Var "p") 			~=? (parse "p"),
+	(And (Var "p") (Var "q")) 	~=? (parse "p && q"),
 	(Or (Var "p") (Var "q")) 		~=? (parse "p || q"),
 	(Or (Not (Var "p")) (Var "q"))	~=? (parse "!p || q"),
 	(And (D (Var "p")) (Var "q")) 	~=? (parse "<>p && q"),
@@ -45,7 +45,7 @@ testsGrafo = test [
 
 
 	
-k = K (lineal [1]) (\x -> if ((x == "p") || (x == "q")) then [1] else [])
+k = K (lineal [1]) (\x -> if (x == "p") || (x == "q") then [1] else [])
 k1 = K (agEje (1,2) $ agEje (1,3) $ agNodo 3 $ agNodo 2 $ agNodo 1 $ vacio)
 
 testsLomoba = test [
@@ -71,6 +71,8 @@ testsLomoba = test [
 	True ~=? (eval k 1  (parse "p || q")),
 	True ~=? (eval k 1  (parse "p || r")),
 	False ~=? (eval k 1  (parse "r || j"))]
+
+]
 
 ---------------
 --  helpers  --
