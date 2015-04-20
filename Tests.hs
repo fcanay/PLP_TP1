@@ -55,13 +55,13 @@ testsLomoba = test [
 	2 ~=? (visibilidad (parse "<><>p || <><>q")),
 	3 ~=? (visibilidad (parse "<>(<>p || <><>q))")),
 	3 ~=? (visibilidad (parse "[](<>p && <>[]q))")),
-	["p"] ~=? (extraer (parse "p")),
-	["p"] ~=? (extraer (parse "<>p")),
-	["p"] ~=? (extraer (parse "<>!<>p")),
-	["p", "q"] ~=? (extraer (parse "<><>p || <><>q")),
-	["p", "q"] ~=? (extraer (parse "<>(<>p || <><>q))")),
-	["p", "q"] ~=? (extraer (parse "[](<>p && <>[]q))")),
 
+	["p"] ~~? (extraer (parse "p")),
+	["p"] ~~? (extraer (parse "<>p")),
+	["p"] ~~? (extraer (parse "<>!<>p")),
+	["p", "q"] ~~? (extraer (parse "<><>p || <><>q")),
+	["p", "q"] ~~? (extraer (parse "<>(<>p || <><>q))")),
+	["p", "q"] ~~? (extraer (parse "[](<>p && <>[]q))")),
 
 	True ~=? (eval k 1  (parse "p")),
 	False ~=? (eval k 1  (parse "!p")),
@@ -70,14 +70,14 @@ testsLomoba = test [
 	True ~=? (eval k 1  (parse "p && q")),
 	True ~=? (eval k 1  (parse "p || q")),
 	True ~=? (eval k 1  (parse "p || r")),
-	False ~=? (eval k 1  (parse "r || j"))
+	False ~=? (eval k 1  (parse "r || j"))]
 
 	True ~=? (eval k1 1  (parse "<>p"))
 	True ~=? (eval k1 1  (parse "[]p"))
 	False ~=? (eval k1 1  (parse "<>q"))
 	True ~=? (eval k1 1  (parse "[]q"))
 	False ~=? (eval k1 1  (parse "<>r"))
-	False ~=? (eval k1 1  (parse "[]r"))]	]
+	False ~=? (eval k1 1  (parse "[]r"))]	
 
 ---------------
 --  helpers  --
