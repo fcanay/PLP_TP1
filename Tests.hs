@@ -55,9 +55,9 @@ testsLomoba = test [
     3 ~=? (visibilidad (parse "<>(<>p || <><>q)")),
     3 ~=? (visibilidad (parse "[](<>p && <>[]q)")),
 
-    ["p"] ~~? (extraer (parse "p")),
-    ["p"] ~~? (extraer (parse "<>p")),
-    ["p"] ~~? (extraer (parse "<>!<>p")),
+    ["p"]      ~~? (extraer (parse "p")),
+    ["p"]      ~~? (extraer (parse "<>p")),
+    ["p"]      ~~? (extraer (parse "<>!<>p")),
     ["p", "q"] ~~? (extraer (parse "<><>p || <><>q")),
     ["p", "q"] ~~? (extraer (parse "<>(<>p || <><>q)")),
     ["p", "q"] ~~? (extraer (parse "[](<>p && <>[]q)")),
