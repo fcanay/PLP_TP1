@@ -14,7 +14,6 @@ instance Eq a => Eq (Grafo a) where
 							foldr (\x res -> (Data.List.union (e1 x) (e2 x) == Data.List.intersect (e1 x) (e2 x)) && res) True n1
 
 -- ---------------------------------Sección 3--------- Grafos ---------------------------
---TODO tener en cuenta el comportamiento de la f cunado el nodo no pertence al grafo
 -- Ejercicio 1
 vacio :: Grafo a
 vacio = G [] (const [])
@@ -43,10 +42,6 @@ agEje (n1,n2) (G ns f) =    if (elem n2 ns) && (elem n1 ns) then
                                 G ns (\n -> if n == n1 then (Data.List.union [n2] (f n)) else f n)
                             else
                                 G ns f
---TODO Aca no deberiamos ver que n1 pertenezca al grafo antes de hacer el union?
---      se lo agregue por las dudas de ultima se saca.
---Santi: Me parece que va bien
-
 
 -- Ejercicio 7
 lineal :: (Eq a) => [a] -> Grafo a
@@ -56,10 +51,10 @@ lineal ns = G ns (\n -> if (elem n ns) && (n /= (last ns))
 -- Ejercicio 8
 union :: (Eq a) => Grafo a -> Grafo a -> Grafo a
 union (G ns1 f1) (G ns2 f2) = G (Data.List.union ns1 ns2) (\n -> Data.List.union (f1 n) (f2 n))
---TODO Ver q pasa si n no pertenecia a uno de los dos. 
---Santi: Creo que seria algo como [1,2] [] = [1,2] porque no esta en uno, pero si en otro. Para mi esta bien.
 
 -- Ejercicio 9
+-- Lo que hacemos es clausurar len(ns) veces, por lo que hacemos una clausura por cada nodo del grafo.
+-- Al hacer len(ns) veces clausura, sabemos que vamos a llegar a la clausura reflexo-transitiva.
 clausura :: (Eq a) => Grafo a -> Grafo a
 clausura (G ns f) = foldr (\x g -> unPasoClausura g) (G ns f) ns 
 
@@ -69,19 +64,3 @@ unPasoClausura (G ns f) = G ns (\n -> Data.List.union [n] (Data.List.union (f n)
                                                                                                     then Data.List.union (f x) rec 
                                                                                                     else rec) 
                                                                                                     [] ns)))
-
-clausuraSanti :: (Eq a) => Grafo a -> Grafo a
-clausuraSanti = puntoFijo unPasoClausura
-
---TODO Preguntar si esta es la solucion (tiene recursion explicita)					
-puntoFijo :: (Eq a) => (a -> a) -> a -> a
-puntoFijo f x = if f x == x
-				then x
-				else puntoFijo f (f x)
-
-
-
-
-
-
-
